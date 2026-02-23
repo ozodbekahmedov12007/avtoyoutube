@@ -16,15 +16,15 @@ from moviepy.config import change_settings
 import platform
 from moviepy.config import change_settings
 
-# Tizimni tekshirish
 if platform.system() == "Windows":
-    # O'z kompyuteringiz uchun (Papka nomini tekshiring!)
+    # O'z kompyuteringiz uchun yo'l
     IMAGEMAGICK_PATH = r"C:\Program Files\ImageMagick-7.1.1-Q16-HDRI\magick.exe"
 else:
-    # Linux Server (Oracle/Kamatera) uchun
+    # Linux Server (Render/Kamatera) uchun
     IMAGEMAGICK_PATH = "/usr/bin/convert"
 
-<<<<<<< HEAD
+change_settings({"IMAGEMAGICK_BINARY": IMAGEMAGICK_PATH})
+
 # Tizimni tekshirish
 if platform.system() == "Windows":
     # O'z kompyuteringiz uchun (Papka nomini tekshiring!)
@@ -33,17 +33,13 @@ else:
     # Linux Server (Oracle/Kamatera) uchun
     IMAGEMAGICK_PATH = "/usr/bin/convert"
 
-=======
->>>>>>> 93e43dd (Dockerfile va Python versiyasi yangilandi)
+
 change_settings({"IMAGEMAGICK_BINARY": IMAGEMAGICK_PATH})
 import yt_dlp
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
-# ==============================================================================
-# ⚙️ 1. SOZLAMALAR VA KALITLAR (JSON FAYLLAR YO'Q)
-# ==============================================================================
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
@@ -64,9 +60,7 @@ PUBG_TOPICS = [
     "Pro tips for using grenades in PUBG"
 ]
 
-# ==============================================================================
-# 🧠 2. AI MATN VA OVOZ
-# ==============================================================================
+
 def generate_ai_content(topic):
     from groq import Groq
     print(f"\n🧠 [1/5] Groq AI ishga tushdi. Mavzu: {topic}")
@@ -92,9 +86,8 @@ async def text_to_speech(text):
     await edge_tts.Communicate(text, TTS_VOICE).save(str(audio_path))
     return str(audio_path)
 
-# ==============================================================================
-# 📥 3. YOUTUBE'DAN TAYYOR VIDEO YUKLASH
-# ==============================================================================
+
+
 def download_gameplay():
     print("📥 [3/5] Tiniq video qidirilmoqda...")
     queries = [
@@ -129,9 +122,7 @@ def download_gameplay():
         print(f"❌ Yuklashda xato: {e}")
         return None
 
-# ==============================================================================
-# 🎞️ 4. VIDEO MONTAJ (720p - RAM TEJAMKOR)
-# ==============================================================================
+
 def create_shorts_video(bg_path, audio_path, script_text):
     print("🎞️ [4/5] 720p (RAM tejamkor) render boshlandi...")
     audio = AudioFileClip(audio_path)
@@ -175,9 +166,8 @@ def create_shorts_video(bg_path, audio_path, script_text):
     audio.close()
     return out_path
 
-# ==============================================================================
-# 📤 5. YOUTUBE'GA YUKLASH (Faqat .env orqali)
-# ==============================================================================
+
+
 def upload_to_youtube(video_path, topic):
     print("📤 [5/5] YouTube'ga yuklanmoqda...")
     try:
@@ -220,9 +210,7 @@ def upload_to_youtube(video_path, topic):
             print(f"\n❌ Yuklashda xatolik yuz berdi: {e}")
         return "Xatolik tufayli yuklanmadi"
 
-# ==============================================================================
-# ⏰ ASOSIY BOT JARAYONI
-# ==============================================================================
+
 def job_create_and_upload_video():
     # 1. Oldindan tayyorgarlik (08:30 yoki 18:30 da boshlanadi)
     print(f"\n⏳ [{time.strftime('%H:%M:%S')}] Ish boshlandi. Tayyorgarlik ko'rilmoqda...")
