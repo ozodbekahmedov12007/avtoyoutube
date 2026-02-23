@@ -9,9 +9,13 @@ from moviepy.config import change_settings
 # .env fayldan parollarni o'qish
 load_dotenv()
 
-# Eski Windows uchun qatorni o'chiring va o'rniga shuni yozing:
-change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/convert"})
+from moviepy.config import change_settings
 
+# KOMPYUTERINGIZDAGI PAPKA NOMINI TEKSHIRIB, TO'G'RI VARIANTNI QOLDIRING:
+# Agar 7.1.2 bo'lsa:
+# Server (Linux) uchun ImageMagick yo'li
+IMAGEMAGICK_PATH = "/usr/bin/convert"
+change_settings({"IMAGEMAGICK_BINARY": IMAGEMAGICK_PATH})
 import yt_dlp
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -200,27 +204,48 @@ def upload_to_youtube(video_path, topic):
 # ⏰ ASOSIY BOT JARAYONI
 # ==============================================================================
 def job_create_and_upload_video():
-    print("\n🚀 Jarayon boshlandi...")
+    # 1. Oldindan tayyorgarlik (08:30 yoki 18:30 da boshlanadi)
+    print(f"\n⏳ [{time.strftime('%H:%M:%S')}] Ish boshlandi. Tayyorgarlik ko'rilmoqda...")
+
+    # Mavzuni funksiyaning eng boshida tanlab olamiz
     topic = random.choice(PUBG_TOPICS)
+
+    # AI ssenariy va ovoz
     script = generate_ai_content(topic)
     audio_file = asyncio.run(text_to_speech(script))
 
+    # Gameplay yuklash
     bg_video = download_gameplay()
 
     if bg_video and os.path.exists(bg_video):
-        final_video = create_shorts_video(bg_video, audio_file, script)
-        youtube_url = upload_to_youtube(final_video, topic)
-        print(f"\n🎉 Muvaffaqiyatli! Link: {youtube_url}")
+        # Video render (bu vaqt oladi)
+        final_video_path = create_shorts_video(bg_video, audio_file, script)
 
-        print("🧹 Kesh tozalanmoqda...")
-        for f in [audio_file, bg_video, final_video]:
-            try:
-                if f and os.path.exists(f):
-                    os.remove(f)
-                    print(f"🗑️ O'chirildi: {os.path.basename(f)}")
-            except Exception as e:
-                pass
+        # 2. ANIQ VAQTNI KUTISH REJIMI
+        current_hour = time.localtime().tm_hour
+        # Agar hozir soat 8:30-9:00 bo'lsa target 9, agar 18:30-19:00 bo'lsa target 19
+        target_hour = 9 if current_hour < 12 else 19
+
+        print(f"✅ Video tayyor! Soat roppa-rosa {target_hour}:00:00 bo'lishi kutilmoqda...")
+
+        while True:
+            now = time.localtime()
+            # Soat millari aynan target_hour:00 bo'lganda sikldan chiqadi
+            if now.tm_hour == target_hour and now.tm_min == 0:
+                break
+            time.sleep(1)  # Har soniyada vaqtni tekshiradi
+
+        # 3. YUKLASH (Endi 'topic' bu yerda ishlaydi)
+        youtube_url = upload_to_youtube(final_video_path, topic)
+        print(f"\n🚀 SOAT {target_hour}:00! Video muvaffaqiyatli yuklandi: {youtube_url}")
+
+        # 4. TOZALASH (Cleanup)
+        print("🧹 Xotira tozalanmoqda...")
+        for f in [audio_file, bg_video, final_video_path]:
+            if f and os.path.exists(f):
+                os.remove(f)
     else:
+        # Agar video topilmasa, kutib turgan audio faylni o'chirib tashlaymiz
         if os.path.exists(audio_file):
             os.remove(audio_file)
         print("❌ Sifatli manba topilmadi. Keyingi taymerni kuting.")
