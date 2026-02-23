@@ -272,5 +272,22 @@ def main():
         schedule.run_pending()
         time.sleep(60)
 
+import os
+import http.server
+import socketserver
+import threading
+
+def run_dummy_server():
+    port = int(os.environ.get("PORT", 8080))
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", port), handler) as httpd:
+        print(f"Port {port} Render uchun muvaffaqiyatli ochildi")
+        httpd.serve_forever()
+
+
+threading.Thread(target=run_dummy_server, daemon=True).start()
+
+
+
 if __name__ == "__main__":
     main()

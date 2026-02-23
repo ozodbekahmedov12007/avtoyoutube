@@ -15,3 +15,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # 5. Botni ishga tushirish komandasi
 CMD ["python", "youtube_shorts_bot.py"]
+
