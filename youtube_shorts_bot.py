@@ -9,12 +9,19 @@ from moviepy.config import change_settings
 # .env fayldan parollarni o'qish
 load_dotenv()
 
+
+
+import platform
 from moviepy.config import change_settings
 
-# KOMPYUTERINGIZDAGI PAPKA NOMINI TEKSHIRIB, TO'G'RI VARIANTNI QOLDIRING:
-# Agar 7.1.2 bo'lsa:
-# Server (Linux) uchun ImageMagick yo'li
-IMAGEMAGICK_PATH = "/usr/bin/convert"
+# Tizimni tekshirish
+if platform.system() == "Windows":
+    # O'z kompyuteringiz uchun (Papka nomini tekshiring!)
+    IMAGEMAGICK_PATH = r"C:\Program Files\ImageMagick-7.1.1-Q16-HDRI\magick.exe" 
+else:
+    # Linux Server (Oracle/Kamatera) uchun
+    IMAGEMAGICK_PATH = "/usr/bin/convert"
+
 change_settings({"IMAGEMAGICK_BINARY": IMAGEMAGICK_PATH})
 import yt_dlp
 from google.oauth2.credentials import Credentials
