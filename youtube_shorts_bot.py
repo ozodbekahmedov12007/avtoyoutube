@@ -103,13 +103,36 @@ import os
 base_dir = os.path.dirname(os.path.abspath(__file__))
 cookie_file = os.path.join(base_dir, 'youtube_cookies.txt')
 
-ydl_opts = {
-    'cookiefile': cookie_file,  # Aniq yo'lni ko'rsatish
-    'format': 'bestvideo+bestaudio/best',
-    'noplaylist': True,
-    'quiet': False,
-}
+def download_gameplay():
+    print("📥 [3/5] Gameplay yuklanmoqda...")
+
+    queries = [
+        "PUBG Mobile full gameplay no commentary 1080p",
+        "PUBG Mobile high kill gameplay no commentary 4k",
+        "PUBG Mobile long gameplay no facecam"
+    ]
+
+    query = random.choice(queries)
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    cookie_file = os.path.join(base_dir, 'youtube_cookies.txt')
+
+    ydl_opts = {
+        'cookiefile': cookie_file,
+        'format': 'bestvideo[height<=720]+bestaudio/best',
+        'noplaylist': True,
+        'quiet': False,
+        'outtmpl': str(OUTPUT_DIR / 'bg_video.%(ext)s')
+    }
+
     try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(f"ytsearch1:{query}", download=True)
+            video_path = ydl.prepare_filename(info['entries'][0])
+            return video_path
+    except Exception as e:
+        print(f"❌ Yuklashda xato: {e}")
+        return None try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch40:{query}", download=False)
             valid_videos = [e for e in info['entries'] if e and 60 <= e.get('duration', 0) <= 1200]
