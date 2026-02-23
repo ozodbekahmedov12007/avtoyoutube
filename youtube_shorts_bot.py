@@ -99,15 +99,15 @@ def download_gameplay():
 
     import os
 
+# Fayl yo'lini qat'iy belgilash
+cookie_file_path = os.path.join(os.path.dirname(__file__), 'youtube_cookies.txt')
 
-    cookie_path = os.path.join(os.getcwd(), 'youtube_cookies.txt')
-
-    ydl_opts = {
-        'cookiefile': cookie_path,  
-        'format': 'bestvideo+bestaudio/best',
-        'noplaylist': True,
-    }
-
+ydl_opts = {
+    'cookiefile': cookie_file_path,  # Majburiy yo'l
+    'format': 'bestvideo+bestaudio/best',
+    'noplaylist': True,
+}
+    
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch40:{query}", download=False)
@@ -281,20 +281,17 @@ import http.server
 import socketserver
 import threading
 
-import os
 import http.server
 import socketserver
 import threading
 
-# Render port qidirganda unga "men ishlayapman" deyish uchun soxta server
 def run_dummy_server():
     port = int(os.environ.get("PORT", 8080))
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
-        print(f"Port {port} Render uchun muvaffaqiyatli band qilindi")
+        print(f"Render uchun port {port} ochildi")
         httpd.serve_forever()
 
-# Serverni alohida fonda (thread) ishga tushirish
 threading.Thread(target=run_dummy_server, daemon=True).start()
 
 if __name__ == "__main__":
