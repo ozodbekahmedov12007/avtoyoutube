@@ -1,5 +1,7 @@
 # 1. Asosiy tizim (Python o'rnatilgan tayyor Linux)
-FROM python:3.10-slim
+# Eski: FROM python:3.10-slim
+# Yangi:
+FROM python:3.11-slim
 
 # 2. FFmpeg va ImageMagick'ni tekinga, terminalsiz o'rnatish
 RUN apt-get update && apt-get install -y ffmpeg imagemagick

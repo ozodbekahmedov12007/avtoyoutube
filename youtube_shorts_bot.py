@@ -13,7 +13,18 @@ load_dotenv()
 
 import platform
 from moviepy.config import change_settings
+import platform
+from moviepy.config import change_settings
 
+# Tizimni tekshirish
+if platform.system() == "Windows":
+    # O'z kompyuteringiz uchun (Papka nomini tekshiring!)
+    IMAGEMAGICK_PATH = r"C:\Program Files\ImageMagick-7.1.1-Q16-HDRI\magick.exe"
+else:
+    # Linux Server (Oracle/Kamatera) uchun
+    IMAGEMAGICK_PATH = "/usr/bin/convert"
+
+<<<<<<< HEAD
 # Tizimni tekshirish
 if platform.system() == "Windows":
     # O'z kompyuteringiz uchun (Papka nomini tekshiring!)
@@ -22,6 +33,8 @@ else:
     # Linux Server (Oracle/Kamatera) uchun
     IMAGEMAGICK_PATH = "/usr/bin/convert"
 
+=======
+>>>>>>> 93e43dd (Dockerfile va Python versiyasi yangilandi)
 change_settings({"IMAGEMAGICK_BINARY": IMAGEMAGICK_PATH})
 import yt_dlp
 from google.oauth2.credentials import Credentials
