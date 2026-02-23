@@ -1,0 +1,8 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+.gemini.google.com	TRUE	/	FALSE	1806379048	_ga	GA1.1.421064208.1763377911
+.gemini.google.com	TRUE	/	FALSE	1778991609	_gcl_au	1.1.1862937882.1771215609
+.gemini.google.com	TRUE	/	FALSE	1806379048	_ga_BF8Q35BMLM	GS2.1.s1771819048$o262$g0$t1771819048$j60$l0$h0
+.gemini.google.com	TRUE	/	FALSE	1806386025	_ga_WC57KJ50ZZ	GS2.1.s1771825810$o269$g1$t1771826025$j60$l0$h0
