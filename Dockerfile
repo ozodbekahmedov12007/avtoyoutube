@@ -2,6 +2,7 @@
 # Eski: FROM python:3.10-slim
 # Yangi:
 FROM python:3.11-slim
+COPY youtube_cookies.txt /app/youtube_cookies.txt
 
 # 2. FFmpeg va ImageMagick'ni tekinga, terminalsiz o'rnatish
 RUN apt-get update && apt-get install -y ffmpeg imagemagick

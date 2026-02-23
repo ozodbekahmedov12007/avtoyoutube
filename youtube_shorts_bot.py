@@ -97,17 +97,17 @@ def download_gameplay():
     ]
     query = random.choice(queries)
 
-    import os
+ import os
 
-# Fayl yo'lini qat'iy belgilash
-cookie_file_path = os.path.join(os.path.dirname(__file__), 'youtube_cookies.txt')
+# Faylning aniq joylashgan manzilini topish
+current_dir = os.path.dirname(os.path.abspath(__file__))
+cookie_path = os.path.join(current_dir, 'youtube_cookies.txt')
 
 ydl_opts = {
-    'cookiefile': cookie_file_path,  # Majburiy yo'l
+    'cookiefile': cookie_path, # Server uchun eng xavfsiz yo'l
     'format': 'bestvideo+bestaudio/best',
     'noplaylist': True,
 }
-    
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch40:{query}", download=False)
