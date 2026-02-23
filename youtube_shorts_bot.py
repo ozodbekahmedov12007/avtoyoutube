@@ -98,7 +98,7 @@ def download_gameplay():
     query = random.choice(queries)
 
     ydl_opts = {
-        './cookiefile': 'youtube_cookies.txt',  # Mana shu qatorni qo'shing
+        'cookiefile': os.path.join(os.getcwd(), 'youtube_cookies.txt'),
         'format': 'bestvideo+bestaudio/best',
         'noplaylist': True,
     }
@@ -277,16 +277,19 @@ import http.server
 import socketserver
 import threading
 
+import os
+import http.server
+import socketserver
+import threading
+
 def run_dummy_server():
     port = int(os.environ.get("PORT", 8080))
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
-        print(f"Port {port} Render uchun muvaffaqiyatli ochildi")
+        print(f"Render uchun port {port} ochildi")
         httpd.serve_forever()
 
-
 threading.Thread(target=run_dummy_server, daemon=True).start()
-
 
 
 if __name__ == "__main__":
