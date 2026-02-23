@@ -107,7 +107,7 @@ def download_gameplay():
         'format': 'bestvideo+bestaudio/best',
         'noplaylist': True,
     }
-    
+
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch40:{query}", download=False)
@@ -281,13 +281,20 @@ import http.server
 import socketserver
 import threading
 
+import os
+import http.server
+import socketserver
+import threading
+
+# Render port qidirganda unga "men ishlayapman" deyish uchun soxta server
 def run_dummy_server():
     port = int(os.environ.get("PORT", 8080))
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
-        print(f"Port {port} Render uchun ochildi")
+        print(f"Port {port} Render uchun muvaffaqiyatli band qilindi")
         httpd.serve_forever()
 
+# Serverni alohida fonda (thread) ishga tushirish
 threading.Thread(target=run_dummy_server, daemon=True).start()
 
 if __name__ == "__main__":
