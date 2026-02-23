@@ -97,16 +97,17 @@ def download_gameplay():
     ]
     query = random.choice(queries)
 
- import os
+import os
 
-# Faylning aniq joylashgan manzilini topish
-current_dir = os.path.dirname(os.path.abspath(__file__))
-cookie_path = os.path.join(current_dir, 'youtube_cookies.txt')
+# Faylning server ichidagi aniq manzilini topamiz
+base_dir = os.path.dirname(os.path.abspath(__file__))
+cookie_file = os.path.join(base_dir, 'youtube_cookies.txt')
 
 ydl_opts = {
-    'cookiefile': cookie_path, # Server uchun eng xavfsiz yo'l
+    'cookiefile': cookie_file,  # Aniq yo'lni ko'rsatish
     'format': 'bestvideo+bestaudio/best',
     'noplaylist': True,
+    'quiet': False,
 }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -281,17 +282,15 @@ import http.server
 import socketserver
 import threading
 
-import http.server
-import socketserver
-import threading
-
 def run_dummy_server():
-    port = int(os.environ.get("PORT", 8080))
+    # Render beradigan PORT-ni band qilamiz
+    port = int(os.environ.get("PORT", 10000))
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
-        print(f"Render uchun port {port} ochildi")
+        print(f"Render uchun soxta port {port} ochildi.")
         httpd.serve_forever()
 
+# Serverni orqa fonda (background) ishga tushirish
 threading.Thread(target=run_dummy_server, daemon=True).start()
 
 if __name__ == "__main__":
