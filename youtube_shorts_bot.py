@@ -107,12 +107,15 @@ def download_gameplay():
     # Saqlanadigan fayl nomi
     out_tmpl = str(OUTPUT_DIR / 'bg_video.%(ext)s')
 
-    ydl_opts = {
+   ydl_opts = {
         'cookiefile': cookie_file,
         'format': 'bestvideo[ext=mp4]+bestaudio[m4a]/best[ext=mp4]/best',
         'noplaylist': True,
         'quiet': False,
         'outtmpl': out_tmpl,
+        # YOUTUBE BLOKLAMASLIGI UCHUN KUTISH VAQTI (Hujjatdagi maslahat)
+        'sleep_interval': 5, 
+        'max_sleep_interval': 10,
     }
 
     try:
