@@ -98,7 +98,7 @@ def download_gameplay():
     query = random.choice(queries)
 
     ydl_opts = {
-        'cookiefile': 'youtube_cookies.txt',  # Mana shu qatorni qo'shing
+        './cookiefile': 'youtube_cookies.txt',  # Mana shu qatorni qo'shing
         'format': 'bestvideo+bestaudio/best',
         'noplaylist': True,
     }
