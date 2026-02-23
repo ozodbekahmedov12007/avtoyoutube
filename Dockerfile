@@ -1,19 +1,16 @@
-# 1. Asosiy tizim (Python o'rnatilgan tayyor Linux)
-# Eski: FROM python:3.10-slim
-# Yangi:
 FROM python:3.11-slim
-COPY youtube_cookies.txt /app/youtube_cookies.txt
 
-# 2. FFmpeg va ImageMagick'ni tekinga, terminalsiz o'rnatish
-RUN apt-get update && apt-get install -y ffmpeg imagemagick
+# FFmpeg, ImageMagick va Node.js (yt-dlp JavaScript kodlarini o'qishi uchun) o'rnatish
+RUN apt-get update && apt-get install -y ffmpeg imagemagick nodejs
 
-# 3. Kodingizni Docker ichiga nusxalash
 WORKDIR /app
 COPY . .
 
-# 4. Kutubxonalarni o'rnatish (requirements.txt dan)
+# Cookies faylini ko'chirish
+COPY youtube_cookies.txt /app/youtube_cookies.txt
+
+# yt-dlp ni eng oxirgi versiyaga majburan yangilash va boshqa kutubxonalarni o'rnatish
+RUN pip install --no-cache-dir --upgrade yt-dlp
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 5. Botni ishga tushirish komandasi
 CMD ["python", "youtube_shorts_bot.py"]
-
