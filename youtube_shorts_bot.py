@@ -97,12 +97,17 @@ def download_gameplay():
     ]
     query = random.choice(queries)
 
+    import os
+
+
+    cookie_path = os.path.join(os.getcwd(), 'youtube_cookies.txt')
+
     ydl_opts = {
-        'cookiefile': os.path.join(os.getcwd(), 'youtube_cookies.txt'),
+        'cookiefile': cookie_path,  
         'format': 'bestvideo+bestaudio/best',
         'noplaylist': True,
     }
-
+    
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch40:{query}", download=False)
@@ -272,12 +277,6 @@ def main():
         schedule.run_pending()
         time.sleep(60)
 
-import os
-import http.server
-import socketserver
-import threading
-
-import os
 import http.server
 import socketserver
 import threading
@@ -286,11 +285,10 @@ def run_dummy_server():
     port = int(os.environ.get("PORT", 8080))
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
-        print(f"Render uchun port {port} ochildi")
+        print(f"Port {port} Render uchun ochildi")
         httpd.serve_forever()
 
 threading.Thread(target=run_dummy_server, daemon=True).start()
-
 
 if __name__ == "__main__":
     main()
